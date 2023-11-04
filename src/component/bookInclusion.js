@@ -1,10 +1,25 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { inAxios } from "../../config_axios";
 
 const BookInclusion = () => {
-    const { register, handleSubmit }= useForm();
+    const { register, handleSubmit, reset }= useForm();
+    
+    const [warning, setWarning]=useState("");
 
-    const save = (fields) =>{
-        alert(JSON.stringify(fields))
+    const save = async (fields) =>{
+        try{
+            const response = await inAxios.post("books", fields);
+            setWarning(`Livro cadastrado com código ${response.data.id}`);
+        } catch (err){
+            setWarning(`Erro! Livro não cadastrado: ${err}`);
+        }
+
+        setTimeout(()=>{
+            setWarning("");
+        }, 5000);
+
+        reset({Titulo:"", Autor:"", Foto:"", Ano:"", Preco:""});
     }    
 
     return ( 
@@ -41,7 +56,7 @@ const BookInclusion = () => {
                 <input type="submit" className="btn btn-primary mt-3 me-3" value="Enviar"/>
                 <input type="reset" className="btn btn-danger mt-3 " value="Limpar"/>
             </form>
-            <div className="alert"></div>
+            <div className={warning.startsWith("Ok!")?"alert-alert-success":warning.startsWith("Erro")?"alert alert-danger":""}>{warning}</div>
         </div>
     );
 }
