@@ -1,22 +1,21 @@
 import "./itemList.css";
 
 const ItemList = (props) => {
-    console.log("Estou renderizando!");
     return ( 
         <tr>
             <td>{props.id}</td>
             <td>{props.Titulo}</td>
             <td>{props.Autor}</td>
             <td>{props.Ano}</td>
-            <td class="text-end">
-                {Number(props.Preco).toLocaleString("pt-br",{minimumFractionDigits:2})}
+            <td className="text-end">
+                {`R$ ${Number(props.Preco).toLocaleString("pt-br",{minimumFractionDigits:2})}`}
                 </td>
-            <td class="text-center">
+            <td className="text-center">
                 <img src={props.Foto} alt="Capa do livro" width="75"/>
             </td>
-            <td class="text-center">
-                <i class="exclui text-danger fw-bold" title="Exclude">&#10008</i>
-                <i class="altera text-success fw-bold ms-2" title="Change">&#36;</i>
+            <td className="text-center">
+                <i className="exclui text-danger fw-bold" title="Excluir" onClick={props.excludeClick}>&#10008;</i>
+                <i className="altera text-success fw-bold ms-2" title="Modificar" onClick={props.changeClick}>&#36;</i>
 
             </td>
         </tr>
